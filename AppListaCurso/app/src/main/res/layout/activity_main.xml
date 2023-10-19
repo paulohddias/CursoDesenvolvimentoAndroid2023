@@ -87,7 +87,7 @@
         app:layout_constraintTop_toBottomOf="@+id/editTelefoneContato" />
 
     <Spinner
-        android:id="@+id/spinner"
+        android:id="@+id/spinnerCursos"
         android:layout_width="409dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"

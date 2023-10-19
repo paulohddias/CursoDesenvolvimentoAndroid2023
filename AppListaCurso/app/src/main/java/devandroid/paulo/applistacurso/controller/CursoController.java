@@ -8,7 +8,8 @@ import devandroid.paulo.applistacurso.model.Curso;
 public class CursoController {
 
     private List listCursos;
-    public List getListaDeCursos(){
+
+    public List getListaDeCursos() {
         listCursos = new ArrayList<Curso>();
         listCursos.add(new Curso("JAVA"));
         listCursos.add(new Curso("HTML"));
@@ -19,6 +20,15 @@ public class CursoController {
 
         return listCursos;
 
+    }
+
+    public ArrayList<String> dadosParaSpinner() {
+        ArrayList<String> dados = new ArrayList<>();
+        for (int i = 0; i < getListaDeCursos().size(); i++) {
+            Curso objeto = (Curso) getListaDeCursos().get(i);
+            dados.add(objeto.getNomeDoCursoDesejado());
+        }
+        return dados;
     }
 
 
