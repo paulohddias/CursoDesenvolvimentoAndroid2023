@@ -1,4 +1,4 @@
-package devandroid.paulo.applistacurso.view;
+package devandroid.paulo.appgaseta.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -12,13 +12,12 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import devandroid.paulo.applistacurso.R;
-import devandroid.paulo.applistacurso.controller.CursoController;
-import devandroid.paulo.applistacurso.controller.PessoaController;
-import devandroid.paulo.applistacurso.model.Pessoa;
+import devandroid.paulo.appgaseta.R;
+import devandroid.paulo.appgaseta.controller.CursoController;
+import devandroid.paulo.appgaseta.controller.PessoaController;
+import devandroid.paulo.appgaseta.model.Pessoa;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -34,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_spinner);
+        setContentView(R.layout.activity_gaseta);
 
         controller = new PessoaController(MainActivity.this);
 
@@ -44,8 +43,8 @@ public class MainActivity extends AppCompatActivity {
         pessoa = new Pessoa();
         controller.buscar(pessoa);
 
-        editPrimeiroNome = findViewById(R.id.editPrimeiroNome);
-        editSobrenome = findViewById(R.id.editSobrenome);
+        editPrimeiroNome = findViewById(R.id.editGasolina);
+        editSobrenome = findViewById(R.id.editEtanol);
         //editNomeCurso = findViewById(R.id.editNomeCurso);
         editTelefoneContato = findViewById(R.id.editTelefoneContato);
 
@@ -77,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
         for (int i = 0; i < listaCurso.size(); i++) {
             if(listaCurso.get(i).equals(pessoa.getCursoDesejado())){
                 spinner.setSelection(i);
+                break;
             }
         }
 

@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    namespace = "devandroid.paulo.applistacurso"
+    namespace = "devandroid.paulo.appgaseta"
     compileSdk = 33
 
     defaultConfig {
-        applicationId = "devandroid.paulo.applistacurso"
+        applicationId = "devandroid.paulo.appgaseta"
         minSdk = 26
         targetSdk = 33
         versionCode = 1

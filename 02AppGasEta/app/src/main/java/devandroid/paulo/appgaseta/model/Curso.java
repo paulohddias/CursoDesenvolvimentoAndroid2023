@@ -1,4 +1,4 @@
-package devandroid.paulo.applistacurso.model;
+package devandroid.paulo.appgaseta.model;
 
 public class Curso {
     private String nomeDoCursoDesejado;

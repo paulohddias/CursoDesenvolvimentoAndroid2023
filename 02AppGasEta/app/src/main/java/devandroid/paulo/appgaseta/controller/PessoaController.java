@@ -1,9 +1,9 @@
-package devandroid.paulo.applistacurso.controller;
+package devandroid.paulo.appgaseta.controller;
 
 import android.content.SharedPreferences;
 
-import devandroid.paulo.applistacurso.model.Pessoa;
-import devandroid.paulo.applistacurso.view.MainActivity;
+import devandroid.paulo.appgaseta.model.Pessoa;
+import devandroid.paulo.appgaseta.view.MainActivity;
 
 public class PessoaController {
     SharedPreferences preferences;

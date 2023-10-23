@@ -20,7 +20,7 @@
         app:layout_constraintVertical_bias="0.022" />
 
     <EditText
-        android:id="@+id/editPrimeiroNome"
+        android:id="@+id/editGasolina"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_margin="16dp"
@@ -35,18 +35,18 @@
 
 
     <EditText
-        android:id="@+id/editSobrenome"
+        android:id="@+id/editEtanol"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_margin="16dp"
         android:layout_marginTop="24dp"
         android:ems="10"
-        android:hint="@string/txt_hint_edit_sobrenome"
+        android:hint="@string/txt_hint_edit_sobrenome0"
         android:importantForAutofill="no"
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editPrimeiroNome" />
+        app:layout_constraintTop_toBottomOf="@+id/editGasolina" />
 
     <EditText
         android:id="@+id/editNomeCurso"
@@ -59,7 +59,7 @@
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editSobrenome" />
+        app:layout_constraintTop_toBottomOf="@+id/editEtanol" />
 
     <EditText
         android:id="@+id/editTelefoneContato"
