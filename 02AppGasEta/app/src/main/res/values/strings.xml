@@ -14,4 +14,7 @@
     <string name="txt_hint_edit_telefone_contato">Telefone de Contato</string>
     <string name="txt_hint_edit_sobrenome">Sobrenome</string>
     <string name="txt_selecione_um_curso">Selecione o Curso</string>
+    <string name="txt_qtd_litros">QTD Litros</string>
+    <string name="txt_total_pagar">Total a Pagar</string>
+    <string name="txt_km_atual">KM Atual</string>
 </resources>
