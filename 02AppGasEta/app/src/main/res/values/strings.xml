@@ -17,4 +17,10 @@
     <string name="txt_qtd_litros">QTD Litros</string>
     <string name="txt_total_pagar">Total a Pagar</string>
     <string name="txt_km_atual">KM Atual</string>
+    <string name="tbc_combustivel">Combust.</string>
+    <string name="tbc_preco">Preço R$</string>
+    <string name="tbc_litros">Litros</string>
+    <string name="tbc_km_atual">KM</string>
+    <string name="tbc_total">Total R$</string>
+    <string name="tbc_km_consumo">KM Consumo</string>
 </resources>

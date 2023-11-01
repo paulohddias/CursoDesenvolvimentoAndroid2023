@@ -3,6 +3,7 @@ package devandroid.paulo.appgaseta.controller;
 import android.content.SharedPreferences;
 
 import devandroid.paulo.appgaseta.model.Abastecimento;
+import devandroid.paulo.appgaseta.util.MoneyTextWatcher;
 import devandroid.paulo.appgaseta.view.GasEtaActivity;
 
 public class AbastecimentoControler {
@@ -19,14 +20,12 @@ public class AbastecimentoControler {
     }
 
     public void salvar(Abastecimento abastecimento) {
-        spEditorAbastecimento.putInt("kmAntigo", abastecimento.getKmAntigo());
-        spEditorAbastecimento.putInt("kmAtual", abastecimento.getKmAtual());
+        spEditorAbastecimento.putString("kmAntigo", Integer.toString(abastecimento.getKmAntigo()));
+        spEditorAbastecimento.putString("kmAtual", Integer.toString(abastecimento.getKmAtual()));
         spEditorAbastecimento.putString("precoEtanol", abastecimento.getPrecoEtanol().toString());
         spEditorAbastecimento.putString("precoGasolina", abastecimento.getPrecoGasolina().toString());
         spEditorAbastecimento.putString("qtdLitros", abastecimento.getQtdLitros().toString());
         spEditorAbastecimento.putString("totalApagar", abastecimento.getTotalPagar().toString());
-
-
         spEditorAbastecimento.apply();
 
 
@@ -47,6 +46,20 @@ public class AbastecimentoControler {
     public void limpar() {
         spEditorAbastecimento.clear();
         spEditorAbastecimento.apply();
+    }
+
+    public String combustivelSelecionado(String resultado) {
+        String combustivel = "";
+        int indexFinal = resultado.indexOf("Total");
+        combustivel = resultado.substring(14, indexFinal);
+        return combustivel;
+    }
+
+    public Double totalPagarSelecionado (String resultado){
+        Double total=0.0;
+        int indexInicial = resultado.indexOf("R$")+3;
+        total = MoneyTextWatcher.stringMonetarioToDouble(resultado.substring(indexInicial, resultado.length()));
+        return total;
     }
 
 }

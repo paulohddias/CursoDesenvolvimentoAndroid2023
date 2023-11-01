@@ -4,6 +4,8 @@ public class Abastecimento {
     private Double precoGasolina, precoEtanol, qtdLitros, totalPagar;
     private int kmAtual, kmAntigo;
 
+    private String combustivelSelecionado;
+
     public Double getPrecoGasolina() {
         return precoGasolina;
     }
@@ -52,15 +54,24 @@ public class Abastecimento {
         this.kmAntigo = kmAntigo;
     }
 
+    public String getCombustivelSelecionado() {
+        return combustivelSelecionado;
+    }
+
+    public void setCombustivelSelecionado(String combustivelSelecionado) {
+        this.combustivelSelecionado = combustivelSelecionado;
+    }
+
     @Override
     public String toString() {
-        return "Combustivel{" +
+        return "Abastecimento{" +
                 "precoGasolina=" + precoGasolina +
                 ", precoEtanol=" + precoEtanol +
                 ", qtdLitros=" + qtdLitros +
                 ", totalPagar=" + totalPagar +
                 ", kmAtual=" + kmAtual +
                 ", kmAntigo=" + kmAntigo +
+                ", combustivelSelecionado='" + combustivelSelecionado + '\'' +
                 '}';
     }
 }

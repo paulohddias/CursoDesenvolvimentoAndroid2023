@@ -40,88 +40,90 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_calcular_combustivel" />
 
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/txtGasolina"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp">
-
-                <EditText
-                    android:id="@+id/editGasolina"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:ems="10"
-                    android:hint="@string/txt_gasolina"
-                    android:inputType="numberDecimal" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/txtEtanol"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp">
-
-                <EditText
-                    android:id="@+id/editEtanol"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:hint="@string/txt_etanol"
-                    android:importantForAutofill="no"
-                    android:inputType="numberDecimal" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <EditText
-                    android:id="@+id/editQtdLitros"
-                    android:layout_width="120dp"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/txtGasolina"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="16dp"
-                    android:ems="10"
-                    android:hint="@string/txt_qtd_litros"
-                    android:inputType="number" />
+                    android:layout_weight="1">
 
-                <EditText
-                    android:id="@+id/editKmAtual"
-                    android:layout_width="120dp"
+                    <EditText
+                        android:id="@+id/editGasolina"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/txt_gasolina"
+                        android:inputType="numberDecimal" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/txtEtanol"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginStart="150dp"
+                    android:layout_marginStart="16dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="16dp"
-                    android:ems="10"
-                    android:hint="@string/txt_km_atual"
-                    android:inputType="number" />
-            </RelativeLayout>
+                    android:layout_weight="1">
 
-            <EditText
-                android:id="@+id/editTotalPagar"
-                android:layout_width="120dp"
+                    <EditText
+                        android:id="@+id/editEtanol"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/txt_etanol"
+                        android:inputType="numberDecimal" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginRight="8dp"
-                android:ems="10"
-                android:hint="@string/txt_total_pagar"
-                android:importantForAutofill="no"
-                android:inputType="numberDecimal" />
+                android:orientation="horizontal">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/txtQtdLitros"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_weight="1">
+
+                    <EditText
+                        android:id="@+id/editQtdLitros"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/txt_qtd_litros"
+                        android:inputType="number" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/txtKmAtual"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_weight="1">
+
+                    <EditText
+                        android:id="@+id/editKmAtual"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/txt_km_atual"
+                        android:inputType="number" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
 
             <Button
                 android:id="@+id/btnCalcular"
@@ -145,6 +147,62 @@
                 android:text="@string/txt_resultado"
                 android:textSize="22sp"
                 android:textStyle="bold" />
+
+            <ScrollView
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="vertical">
+
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="fill_parent">
+
+                    <TableLayout
+                        android:id="@+id/tabHistorico"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:stretchColumns="*">
+
+                        <TableRow android:background="#bdc3c7">
+
+                            <TextView
+                                style="@style/tabc_font"
+                                android:gravity="left"
+                                android:text="@string/tbc_combustivel" />
+
+                            <TextView
+                                style="@style/tabc_font"
+                                android:gravity="left"
+                                android:text="@string/tbc_preco" />
+
+                            <TextView
+                                style="@style/tabc_font"
+                                android:gravity="left"
+                                android:text="@string/tbc_litros" />
+
+                            <TextView
+                                style="@style/tabc_font"
+                                android:gravity="left"
+                                android:padding="3dip"
+                                android:text="@string/tbc_km_atual" />
+
+                            <TextView
+                                style="@style/tabc_font"
+                                android:gravity="left"
+                                android:text="@string/tbc_total" />
+
+                            <TextView
+                                style="@style/tabc_font"
+                                android:gravity="left"
+                                android:text="@string/tbc_km_consumo" />
+                        </TableRow>
+
+                    </TableLayout>
+
+                </HorizontalScrollView>
+
+            </ScrollView>
 
             <RelativeLayout
                 android:layout_width="match_parent"
