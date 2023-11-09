@@ -25,6 +25,18 @@ public class UtilGasEta {
         return mensagemDeRetorno;
     }
 
+    public static String calcularMelhorOpcao(double gasolina, double etanol) {
+        double precoIdeal = gasolina * 0.70;
+        String mensagemDeRetorno;
+
+        if (etanol <= precoIdeal) {
+            mensagemDeRetorno = "Abastecer com Etanol !!!";
+        } else {
+            mensagemDeRetorno = "Abastecer com Gasolina !!!";
+        }
+        return mensagemDeRetorno;
+    }
+
     public static String doubleParaReal(Double valor){
         Locale ptBr = new Locale("pt", "BR");
         String valorString = NumberFormat.getCurrencyInstance(ptBr).format(valor);

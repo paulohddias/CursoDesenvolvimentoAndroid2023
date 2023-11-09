@@ -21,6 +21,9 @@
     <string name="tbc_preco">Preço R$</string>
     <string name="tbc_litros">Litros</string>
     <string name="tbc_km_atual">KM</string>
+    <string name="btn_melhor_opcao">Melhor opção</string>
     <string name="tbc_total">Total R$</string>
     <string name="tbc_km_consumo">KM Consumo</string>
+    <string name="rb_gasolina">Gasolina</string>
+    <string name="rb_etanol">Etanol</string>
 </resources>
