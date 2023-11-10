@@ -28,7 +28,6 @@ public class AbastecimentoControler {
         spEditorAbastecimento.putString("totalApagar", abastecimento.getTotalPagar().toString());
         spEditorAbastecimento.apply();
 
-
     }
 
     public Abastecimento buscar(Abastecimento abastecimento) {
@@ -55,11 +54,18 @@ public class AbastecimentoControler {
         return combustivel;
     }
 
-    public Double totalPagarSelecionado (String resultado){
-        Double total=0.0;
-        int indexInicial = resultado.indexOf("R$")+3;
+    public Double totalPagarSelecionado(String resultado) {
+        Double total = 0.0;
+        int indexInicial = resultado.indexOf("R$") + 3;
         total = MoneyTextWatcher.stringMonetarioToDouble(resultado.substring(indexInicial, resultado.length()));
         return total;
     }
+
+    public Double calculoCombustivel(double valorCombustivel, double totalPagar) {
+        Double qtdLitros = 0.0;
+        qtdLitros = totalPagar / valorCombustivel;
+        return qtdLitros;
+    }
+
 
 }

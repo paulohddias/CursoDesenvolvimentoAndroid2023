@@ -32,7 +32,7 @@ public class GasEtaActivity extends AppCompatActivity {
     Abastecimento abastecimento;
     AbastecimentoControler abastecimentoControler;
     EditText editGasolina, editEtanol, editQtdLitros, editKmAtual, editTotalPagar;
-    TextInputLayout txtGasolina, txtEtanol, txtQtdLitors, txtKmAtual;
+    TextInputLayout txtGasolina, txtEtanol, txtQtdLitors, txtKmAtual, txtTotalPgar;
     Button btnLimpar, btnSalvar, btnFinalizar, btnCalcular, btnCalacularTipo;
     TextView textViewResultado;
     TableLayout tabHistorico;
@@ -59,6 +59,7 @@ public class GasEtaActivity extends AppCompatActivity {
         txtEtanol = findViewById(R.id.txtEtanol);
         txtQtdLitors = findViewById(R.id.txtQtdLitros);
         txtKmAtual = findViewById(R.id.txtKmAtual);
+        txtTotalPgar = findViewById(R.id.txtTotalPagar);
 
         btnFinalizar = findViewById(R.id.btnFinalizar);
         btnLimpar = findViewById(R.id.btnLimpar);
@@ -108,39 +109,33 @@ public class GasEtaActivity extends AppCompatActivity {
         btnCalcular.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Double gasolina, etanol, qtdLitros, totalPagar;
+                Double gasolina, etanol, totalPagar, qtdLitros = 0.0;
                 int kmAtual;
 
                 if (validadeForm() == true) {
                     gasolina = MoneyTextWatcher.stringMonetarioToDouble(editGasolina.getText().toString());
                     etanol = MoneyTextWatcher.stringMonetarioToDouble(editEtanol.getText().toString());
                     totalPagar = MoneyTextWatcher.stringMonetarioToDouble(editTotalPagar.getText().toString());
-
-                    qtdLitros = Double.parseDouble(editQtdLitros.getText().toString());
                     kmAtual = Integer.parseInt(editKmAtual.getText().toString());
 
                     abastecimento.setPrecoGasolina(gasolina);
                     abastecimento.setPrecoEtanol(etanol);
                     abastecimento.setKmAtual(kmAtual);
-                    abastecimento.setQtdLitros(qtdLitros);
                     abastecimento.setTotalPagar(totalPagar);
 
-                    if(abastecimento.getTotalPagar() == 0.0){
-                        Toast.makeText(GasEtaActivity.this, "Total pagar 0.0!!!", Toast.LENGTH_LONG).show();
-                    }
-
-                    String resultado = UtilGasEta.calcularMelhorOpcao(gasolina, etanol, qtdLitros);
-
-                    abastecimento.setCombustivelSelecionado(abastecimentoControler.combustivelSelecionado(resultado));
-                    //abastecimento.setTotalPagar(abastecimentoControler.totalPagarSelecionado(resultado));
-
                     if (rbGasolina.isChecked()) {
-                        abastecimento.setTotalPagar(abastecimento.getPrecoGasolina() * abastecimento.getQtdLitros());
-                        editTotalPagar.setText(UtilGasEta.doubleParaReal(abastecimento.getTotalPagar()));
+                        abastecimento.setCombustivelSelecionado("Gasolina");
+                        qtdLitros = abastecimentoControler.calculoCombustivel(gasolina, totalPagar);
+                        qtdLitros = UtilGasEta.doubleDuasCasasDecimais(qtdLitros);
+
                     } else if (rbEtanol.isChecked()) {
-                        abastecimento.setTotalPagar(abastecimento.getPrecoEtanol() * abastecimento.getQtdLitros());
-                        editTotalPagar.setText(UtilGasEta.doubleParaReal(abastecimento.getTotalPagar()));
+                        abastecimento.setCombustivelSelecionado("Etanol");
+                        qtdLitros = abastecimentoControler.calculoCombustivel(etanol, totalPagar);
+                        qtdLitros = UtilGasEta.doubleDuasCasasDecimais(qtdLitros);
                     }
+
+                    editQtdLitros.setText(qtdLitros.toString());
+                    abastecimento.setQtdLitros(qtdLitros);
                     abastecimentoControler.salvar(abastecimento);
                     dadosTabela(tabHistorico, abastecimento);
 
@@ -190,15 +185,11 @@ public class GasEtaActivity extends AppCompatActivity {
                 txtKmAtual.setErrorEnabled(true);
                 txtKmAtual.setError("Preencher o KM atual!!!");
                 editKmAtual.requestFocus();
-            } else if (editQtdLitros.getText().toString().isEmpty() ||
-                    editQtdLitros.getText().toString().equals("0") &&
-                    editTotalPagar.getText().toString().isEmpty() ||
-                    editTotalPagar.getText().toString().equals("R$ 0,00")){
-                Toast.makeText(GasEtaActivity.this, "Favor preencher a quantidade ou total!!!", Toast.LENGTH_LONG).show();
-                txtQtdLitors.setErrorEnabled(true);
-                txtQtdLitors.setError("Preencher a quantidade de litros!!!");
-                editQtdLitros.requestFocus();
-            } else{
+            } else if (editTotalPagar.getText().toString().isEmpty() || editTotalPagar.getText().toString().equals("R$ 0,00")) {
+                txtTotalPgar.setErrorEnabled(true);
+                txtTotalPgar.setError("Preencher o valor a pagar!!!");
+                editTotalPagar.requestFocus();
+            } else {
                 txtGasolina.setErrorEnabled(false);
                 txtEtanol.setErrorEnabled(false);
                 txtQtdLitors.setErrorEnabled(false);
@@ -245,7 +236,11 @@ public class GasEtaActivity extends AppCompatActivity {
         tr_head.addView(labelCombustivel);
 
         TextView labelPreco = new TextView(this);
-        labelPreco.setText(UtilGasEta.doubleParaReal(abastecimento.getPrecoGasolina()));
+        if(abastecimento.getCombustivelSelecionado().equals("Gasolina")){
+            labelPreco.setText(UtilGasEta.doubleParaReal(abastecimento.getPrecoGasolina()));
+        }else {
+            labelPreco.setText(UtilGasEta.doubleParaReal(abastecimento.getPrecoEtanol()));
+        }
         tr_head.addView(labelPreco);
 
         TextView labelLitros = new TextView(this);
