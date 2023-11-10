@@ -1,12 +1,18 @@
 package devandroid.paulo.appgaseta.controller;
 
+import android.content.ContentValues;
 import android.content.SharedPreferences;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import devandroid.paulo.appgaseta.database.GasEtaDB;
 import devandroid.paulo.appgaseta.model.Abastecimento;
+import devandroid.paulo.appgaseta.model.Combustivel;
 import devandroid.paulo.appgaseta.util.MoneyTextWatcher;
 import devandroid.paulo.appgaseta.view.GasEtaActivity;
 
-public class AbastecimentoControler {
+public class AbastecimentoControler extends GasEtaDB {
 
     SharedPreferences preferences;
     SharedPreferences.Editor spEditorAbastecimento;
@@ -15,11 +21,14 @@ public class AbastecimentoControler {
 
 
     public AbastecimentoControler(GasEtaActivity gasEtaActivity) {
+        super(gasEtaActivity);
         preferences = gasEtaActivity.getSharedPreferences(NOME_PREFERENCES, 0);
         spEditorAbastecimento = preferences.edit();
     }
 
     public void salvar(Abastecimento abastecimento) {
+        ContentValues dados = new ContentValues();
+
         spEditorAbastecimento.putString("kmAntigo", Integer.toString(abastecimento.getKmAntigo()));
         spEditorAbastecimento.putString("kmAtual", Integer.toString(abastecimento.getKmAtual()));
         spEditorAbastecimento.putString("precoEtanol", abastecimento.getPrecoEtanol().toString());
@@ -28,6 +37,17 @@ public class AbastecimentoControler {
         spEditorAbastecimento.putString("totalApagar", abastecimento.getTotalPagar().toString());
         spEditorAbastecimento.apply();
 
+        dados.put("nomeCombustivel", abastecimento.getCombustivelSelecionado());
+
+        if (abastecimento.getCombustivelSelecionado().equals("Gasolina")) {
+            dados.put("precoCombustivel", abastecimento.getPrecoGasolina());
+            dados.put("recomendacao", "Abasteça com Gasolina!!!");
+        } else {
+            dados.put("precoCombustivel", abastecimento.getPrecoEtanol());
+            dados.put("recomendacao", "Abasteça com Etanol!!!");
+        }
+
+        salvarObjeto("Combustivel", dados);
     }
 
     public Abastecimento buscar(Abastecimento abastecimento) {
@@ -65,6 +85,10 @@ public class AbastecimentoControler {
         Double qtdLitros = 0.0;
         qtdLitros = totalPagar / valorCombustivel;
         return qtdLitros;
+    }
+
+    public List<Combustivel> getListaDados(){
+        return listarDados();
     }
 
 

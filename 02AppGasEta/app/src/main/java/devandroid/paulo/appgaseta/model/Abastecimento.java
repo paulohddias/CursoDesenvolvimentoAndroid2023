@@ -1,10 +1,19 @@
 package devandroid.paulo.appgaseta.model;
 
 public class Abastecimento {
+    private int idAbastecimento;
     private Double precoGasolina, precoEtanol, qtdLitros, totalPagar;
     private int kmAtual, kmAntigo;
-
     private String combustivelSelecionado;
+
+
+    public int getIdAbastecimento() {
+        return idAbastecimento;
+    }
+
+    public void setIdAbastecimento(int idAbastecimento) {
+        this.idAbastecimento = idAbastecimento;
+    }
 
     public Double getPrecoGasolina() {
         return precoGasolina;
@@ -65,7 +74,8 @@ public class Abastecimento {
     @Override
     public String toString() {
         return "Abastecimento{" +
-                "precoGasolina=" + precoGasolina +
+                "idAbastecimento=" + idAbastecimento +
+                ", precoGasolina=" + precoGasolina +
                 ", precoEtanol=" + precoEtanol +
                 ", qtdLitros=" + qtdLitros +
                 ", totalPagar=" + totalPagar +

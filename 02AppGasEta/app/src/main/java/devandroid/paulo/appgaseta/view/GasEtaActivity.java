@@ -19,11 +19,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.util.List;
 import java.util.Locale;
 
 import devandroid.paulo.appgaseta.R;
 import devandroid.paulo.appgaseta.controller.AbastecimentoControler;
 import devandroid.paulo.appgaseta.model.Abastecimento;
+import devandroid.paulo.appgaseta.model.Combustivel;
 import devandroid.paulo.appgaseta.util.MoneyTextWatcher;
 import devandroid.paulo.appgaseta.util.UtilGasEta;
 
@@ -38,6 +40,7 @@ public class GasEtaActivity extends AppCompatActivity {
     TableLayout tabHistorico;
     RadioGroup rbGrupo;
     RadioButton rbGasolina, rbEtanol;
+    List<Combustivel> dados;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,6 +49,7 @@ public class GasEtaActivity extends AppCompatActivity {
 
         abastecimento = new Abastecimento();
         abastecimentoControler = new AbastecimentoControler(GasEtaActivity.this);
+        dados = abastecimentoControler.getListaDados();
 
         //abastecimentoControler.buscar(abastecimento);
 
