@@ -16,7 +16,6 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.List;
@@ -40,7 +39,7 @@ public class GasEtaActivity extends AppCompatActivity {
     TableLayout tabHistorico;
     RadioGroup rbGrupo;
     RadioButton rbGasolina, rbEtanol;
-    List<Combustivel> dados;
+    List<Abastecimento> dados;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -84,6 +83,15 @@ public class GasEtaActivity extends AppCompatActivity {
         editGasolina.addTextChangedListener(new MoneyTextWatcher(editGasolina, mLocale));
         editEtanol.addTextChangedListener(new MoneyTextWatcher(editEtanol, mLocale));
         editTotalPagar.addTextChangedListener(new MoneyTextWatcher(editTotalPagar, mLocale));
+
+        //Populado tabela de historico
+        Boolean vazio = dados.isEmpty();
+        if (vazio == false) {
+            for (Abastecimento i : dados) {
+                dadosTabela(tabHistorico, i);
+            }
+
+        }
 
 
         btnLimpar.setOnClickListener(new View.OnClickListener() {
@@ -240,9 +248,9 @@ public class GasEtaActivity extends AppCompatActivity {
         tr_head.addView(labelCombustivel);
 
         TextView labelPreco = new TextView(this);
-        if(abastecimento.getCombustivelSelecionado().equals("Gasolina")){
+        if (abastecimento.getCombustivelSelecionado().equals("Gasolina")) {
             labelPreco.setText(UtilGasEta.doubleParaReal(abastecimento.getPrecoGasolina()));
-        }else {
+        } else {
             labelPreco.setText(UtilGasEta.doubleParaReal(abastecimento.getPrecoEtanol()));
         }
         tr_head.addView(labelPreco);
@@ -260,6 +268,7 @@ public class GasEtaActivity extends AppCompatActivity {
         tr_head.addView(labelTotalPagar);
 
         TextView labelConsumo = new TextView(this);
+
         labelConsumo.setText("200");
         tr_head.addView(labelConsumo);
 

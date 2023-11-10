@@ -9,7 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import java.util.ArrayList;
 import java.util.List;
 
-import devandroid.paulo.appgaseta.model.Combustivel;
+import devandroid.paulo.appgaseta.model.Abastecimento;
 
 public class GasEtaDB extends SQLiteOpenHelper {
 
@@ -21,15 +21,25 @@ public class GasEtaDB extends SQLiteOpenHelper {
 
     public GasEtaDB(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
-
         db = getWritableDatabase();
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
         //QUERY SQL para Criar Tablela
-        String sqlTabelaCombustivel = "CREATE TABLE Combustivel (id INTEGER PRIMARY KEY AUTOINCREMENT, nomeCombustivel TEXT, precoCombustivel REAL, recomendacao TEXT)";
-        db.execSQL(sqlTabelaCombustivel);
+
+        String sqlTabelaAbasteciemnto ="CREATE TABLE Abastecimento (" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "precoGasolina REAL, " +
+                "precoEtanol REAL, " +
+                "qtdLitros REAL, " +
+                "totalPagar REAL, " +
+                "kmAtual INTEGER, " +
+                "kmAntigo INTEGER, " +
+                "combustivelSelecionado TEXT" +
+                ")";
+
+        db.execSQL(sqlTabelaAbasteciemnto);
     }
 
     @Override
@@ -43,21 +53,26 @@ public class GasEtaDB extends SQLiteOpenHelper {
         db.insert(tabela, null, dados);
     }
 
-    public List<Combustivel> listarDados() {
-        List<Combustivel> lista = new ArrayList<>();
+    public List<Abastecimento> listarDados() {
+        List<Abastecimento> lista = new ArrayList<>();
 
-        Combustivel registro;
-        String query = "SELECT * FROM Combustivel";
+        Abastecimento registro;
+        String query = "SELECT * FROM Abastecimento";
         cursor = db.rawQuery(query, null);
 
         if (cursor.moveToFirst()) {
             do {
-                registro = new Combustivel();
+                registro = new Abastecimento();
 
-                registro.setIdCombustivel(cursor.getInt(0));
-                registro.setNomeCombustivel(cursor.getString(1));
-                registro.setPrecoCombustivel(cursor.getDouble(2));
-                registro.setRecomendacao(cursor.getString(3));
+                registro.setIdAbastecimento(cursor.getInt(0));
+                registro.setPrecoGasolina(cursor.getDouble(1));
+                registro.setPrecoEtanol(cursor.getDouble(2));
+                registro.setQtdLitros(cursor.getDouble(3));
+                registro.setTotalPagar(cursor.getDouble(4));
+                registro.setKmAtual(cursor.getInt(5));
+                registro.setKmAntigo(cursor.getInt(6));
+                registro.setCombustivelSelecionado(cursor.getString(7));
+
                 lista.add(registro);
 
             } while (cursor.moveToNext());

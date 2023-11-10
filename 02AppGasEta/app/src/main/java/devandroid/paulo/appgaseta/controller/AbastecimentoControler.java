@@ -3,12 +3,10 @@ package devandroid.paulo.appgaseta.controller;
 import android.content.ContentValues;
 import android.content.SharedPreferences;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import devandroid.paulo.appgaseta.database.GasEtaDB;
 import devandroid.paulo.appgaseta.model.Abastecimento;
-import devandroid.paulo.appgaseta.model.Combustivel;
 import devandroid.paulo.appgaseta.util.MoneyTextWatcher;
 import devandroid.paulo.appgaseta.view.GasEtaActivity;
 
@@ -37,17 +35,15 @@ public class AbastecimentoControler extends GasEtaDB {
         spEditorAbastecimento.putString("totalApagar", abastecimento.getTotalPagar().toString());
         spEditorAbastecimento.apply();
 
-        dados.put("nomeCombustivel", abastecimento.getCombustivelSelecionado());
+        dados.put("precoGasolina", abastecimento.getPrecoGasolina());
+        dados.put("precoEtanol", abastecimento.getPrecoEtanol());
+        dados.put("qtdLitros", abastecimento.getQtdLitros());
+        dados.put("totalPagar", abastecimento.getTotalPagar());
+        dados.put("kmAtual", abastecimento.getKmAtual());
+        dados.put("kmAntigo", abastecimento.getKmAntigo());
+        dados.put("combustivelSelecionado", abastecimento.getCombustivelSelecionado());
 
-        if (abastecimento.getCombustivelSelecionado().equals("Gasolina")) {
-            dados.put("precoCombustivel", abastecimento.getPrecoGasolina());
-            dados.put("recomendacao", "Abasteça com Gasolina!!!");
-        } else {
-            dados.put("precoCombustivel", abastecimento.getPrecoEtanol());
-            dados.put("recomendacao", "Abasteça com Etanol!!!");
-        }
-
-        salvarObjeto("Combustivel", dados);
+        salvarObjeto("Abastecimento", dados);
     }
 
     public Abastecimento buscar(Abastecimento abastecimento) {
@@ -87,7 +83,7 @@ public class AbastecimentoControler extends GasEtaDB {
         return qtdLitros;
     }
 
-    public List<Combustivel> getListaDados(){
+    public List<Abastecimento> getListaDados(){
         return listarDados();
     }
 
