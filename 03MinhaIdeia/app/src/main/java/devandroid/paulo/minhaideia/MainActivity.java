@@ -1,4 +1,4 @@
-package com.example.minhaideia;
+package devandroid.paulo.minhaideia;
 
 import androidx.appcompat.app.AppCompatActivity;
 

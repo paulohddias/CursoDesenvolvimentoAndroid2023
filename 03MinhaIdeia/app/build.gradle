@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    namespace 'com.example.minhaideia'
+    namespace 'devandroid.paulo.minhaideia'
     compileSdk 34
 
     defaultConfig {
-        applicationId "com.example.minhaideia"
+        applicationId "devandroid.paulo.minhaideia"
         minSdk 24
         targetSdk 34
         versionCode 1
