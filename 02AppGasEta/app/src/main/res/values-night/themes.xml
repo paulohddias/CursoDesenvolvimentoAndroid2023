@@ -8,5 +8,8 @@
         <item name="android:textColor">#ffffff</item>
         <item name="android:textStyle">bold</item>
         <item name="android:background">#bdc3c7</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">16dp</item>
+        <item name="android:layout_marginLeft">3dp</item>
     </style>
 </resources>

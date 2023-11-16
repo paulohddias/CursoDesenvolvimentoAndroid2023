@@ -246,33 +246,26 @@
 
                             <TextView
                                 style="@style/tabc_font"
-                                android:gravity="left"
                                 android:text="@string/tbc_combustivel" />
 
                             <TextView
                                 style="@style/tabc_font"
-                                android:gravity="left"
                                 android:text="@string/tbc_preco" />
 
                             <TextView
                                 style="@style/tabc_font"
-                                android:gravity="left"
                                 android:text="@string/tbc_litros" />
 
                             <TextView
                                 style="@style/tabc_font"
-                                android:gravity="left"
-                                android:padding="3dip"
                                 android:text="@string/tbc_km_atual" />
 
                             <TextView
                                 style="@style/tabc_font"
-                                android:gravity="left"
                                 android:text="@string/tbc_total" />
 
                             <TextView
                                 style="@style/tabc_font"
-                                android:gravity="left"
                                 android:text="@string/tbc_km_consumo" />
                         </TableRow>
 

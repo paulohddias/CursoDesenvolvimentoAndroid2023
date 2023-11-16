@@ -5,17 +5,28 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.widget.ImageView;
+
+import com.bumptech.glide.Glide;
 
 import devandroid.paulo.appgaseta.R;
 import devandroid.paulo.appgaseta.database.GasEtaDB;
 
 public class SplashActivity extends AppCompatActivity {
 
-    public static final int TIME_OUT_SPLASH = 1000;
+    public static final int TIME_OUT_SPLASH = 3000;
+    ImageView imageView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+
+        imageView = findViewById(R.id.imageView);
+        Glide.with(this)
+                .load(R.drawable.ic_bomba2)
+                .into(imageView);
+
+
         cumutarTelaSplash();
     }
 
@@ -24,7 +35,6 @@ public class SplashActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-
                 GasEtaDB db = new GasEtaDB(SplashActivity.this);
                 Intent telaPrincipal = new Intent(SplashActivity.this, GasEtaActivity.class);
                 startActivity(telaPrincipal);

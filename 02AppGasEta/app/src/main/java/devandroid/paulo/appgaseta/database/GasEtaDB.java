@@ -28,16 +28,18 @@ public class GasEtaDB extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         //QUERY SQL para Criar Tablela
 
-        String sqlTabelaAbasteciemnto ="CREATE TABLE Abastecimento (" +
+        String sqlTabelaAbasteciemnto = "CREATE TABLE Abastecimento (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "dataAbastecimento DATE, " +
                 "precoGasolina REAL, " +
                 "precoEtanol REAL, " +
                 "qtdLitros REAL, " +
+                "qtdLitrosConsumo REAL, " +
                 "totalPagar REAL, " +
                 "kmAtual INTEGER, " +
                 "kmAntigo INTEGER, " +
-                "combustivelSelecionado TEXT" +
-                ")";
+                "kmConsumo INTEGER, " +
+                "combustivelSelecionado TEXT" + ")";
 
         db.execSQL(sqlTabelaAbasteciemnto);
     }
@@ -57,7 +59,7 @@ public class GasEtaDB extends SQLiteOpenHelper {
         List<Abastecimento> lista = new ArrayList<>();
 
         Abastecimento registro;
-        String query = "SELECT * FROM Abastecimento";
+        String query = "select * from (SELECT * FROM Abastecimento ORDER BY id desc LIMIT 5) as x order by x.id";
         cursor = db.rawQuery(query, null);
 
         if (cursor.moveToFirst()) {
@@ -71,7 +73,8 @@ public class GasEtaDB extends SQLiteOpenHelper {
                 registro.setTotalPagar(cursor.getDouble(4));
                 registro.setKmAtual(cursor.getInt(5));
                 registro.setKmAntigo(cursor.getInt(6));
-                registro.setCombustivelSelecionado(cursor.getString(7));
+                registro.setKmConsumo(cursor.getInt(7));
+                registro.setCombustivelSelecionado(cursor.getString(8));
 
                 lista.add(registro);
 
@@ -82,4 +85,41 @@ public class GasEtaDB extends SQLiteOpenHelper {
 
         return lista;
     }
+
+    public Abastecimento ultimoRegistro() {
+        Abastecimento registro = new Abastecimento();
+        String query = "SELECT *  FROM Abastecimento ORDER BY  id DESC LIMIT 1";
+        cursor = db.rawQuery(query, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                registro = new Abastecimento();
+
+                registro.setIdAbastecimento(cursor.getInt(0));
+                registro.setPrecoGasolina(cursor.getDouble(1));
+                registro.setPrecoEtanol(cursor.getDouble(2));
+                registro.setQtdLitros(cursor.getDouble(3));
+                registro.setTotalPagar(cursor.getDouble(4));
+                registro.setKmAtual(cursor.getInt(5));
+                registro.setKmAntigo(cursor.getInt(6));
+                registro.setKmConsumo(cursor.getInt(7));
+                registro.setCombustivelSelecionado(cursor.getString(8));
+
+            } while (cursor.moveToNext());
+        } else {
+
+        }
+
+        return registro;
+    }
+
+    public void alterarObejto(String tabela, ContentValues dados) {
+        int id = dados.getAsInteger("id");
+        db.update(tabela, dados, "id=?", new String[]{Integer.toString(id)});
+    }
+
+    public void deletarObjeto(String tabela, int id) {
+        db.delete(tabela, "id=?", new String[]{Integer.toString(id)});
+    }
+
 }

@@ -1,11 +1,13 @@
 package devandroid.paulo.appgaseta.model;
 
+import java.util.Date;
+
 public class Abastecimento {
     private int idAbastecimento;
-    private Double precoGasolina, precoEtanol, qtdLitros, totalPagar;
-    private int kmAtual, kmAntigo;
+    private Double precoGasolina, precoEtanol, qtdLitros, totalPagar, qtdLitrosConsumo;
+    private int kmAtual, kmAntigo, kmConsumo;
     private String combustivelSelecionado;
-
+    private Date dataAbastecimento;
 
     public int getIdAbastecimento() {
         return idAbastecimento;
@@ -47,6 +49,14 @@ public class Abastecimento {
         this.totalPagar = totalPagar;
     }
 
+    public Double getQtdLitrosConsumo() {
+        return qtdLitrosConsumo;
+    }
+
+    public void setQtdLitrosConsumo(Double qtdLitrosConsumo) {
+        this.qtdLitrosConsumo = qtdLitrosConsumo;
+    }
+
     public int getKmAtual() {
         return kmAtual;
     }
@@ -63,12 +73,28 @@ public class Abastecimento {
         this.kmAntigo = kmAntigo;
     }
 
+    public int getKmConsumo() {
+        return kmConsumo;
+    }
+
+    public void setKmConsumo(int kmConsumo) {
+        this.kmConsumo = kmConsumo;
+    }
+
     public String getCombustivelSelecionado() {
         return combustivelSelecionado;
     }
 
     public void setCombustivelSelecionado(String combustivelSelecionado) {
         this.combustivelSelecionado = combustivelSelecionado;
+    }
+
+    public Date getDataAbastecimento() {
+        return dataAbastecimento;
+    }
+
+    public void setDataAbastecimento(Date dataAbastecimento) {
+        this.dataAbastecimento = dataAbastecimento;
     }
 
     @Override
@@ -79,9 +105,12 @@ public class Abastecimento {
                 ", precoEtanol=" + precoEtanol +
                 ", qtdLitros=" + qtdLitros +
                 ", totalPagar=" + totalPagar +
+                ", qtdLitrosConsumo=" + qtdLitrosConsumo +
                 ", kmAtual=" + kmAtual +
                 ", kmAntigo=" + kmAntigo +
+                ", kmConsumo=" + kmConsumo +
                 ", combustivelSelecionado='" + combustivelSelecionado + '\'' +
+                ", dataAbastecimento=" + dataAbastecimento +
                 '}';
     }
 }

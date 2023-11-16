@@ -2,6 +2,7 @@ package devandroid.paulo.appgaseta.view;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -18,13 +19,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.textfield.TextInputLayout;
 
+
 import java.util.List;
 import java.util.Locale;
 
 import devandroid.paulo.appgaseta.R;
 import devandroid.paulo.appgaseta.controller.AbastecimentoControler;
 import devandroid.paulo.appgaseta.model.Abastecimento;
-import devandroid.paulo.appgaseta.model.Combustivel;
 import devandroid.paulo.appgaseta.util.MoneyTextWatcher;
 import devandroid.paulo.appgaseta.util.UtilGasEta;
 
@@ -47,10 +48,13 @@ public class GasEtaActivity extends AppCompatActivity {
         setContentView(R.layout.activity_gaseta);
 
         abastecimento = new Abastecimento();
-        abastecimentoControler = new AbastecimentoControler(GasEtaActivity.this);
-        dados = abastecimentoControler.getListaDados();
 
-        //abastecimentoControler.buscar(abastecimento);
+        abastecimentoControler = new AbastecimentoControler(GasEtaActivity.this);
+
+        //Pegando o ultimo registro
+        abastecimento = abastecimentoControler.getUltimoRegistro();
+
+        dados = abastecimentoControler.getListaDados();
 
         editGasolina = findViewById(R.id.editGasolina);
         editEtanol = findViewById(R.id.editEtanol);
@@ -84,13 +88,15 @@ public class GasEtaActivity extends AppCompatActivity {
         editEtanol.addTextChangedListener(new MoneyTextWatcher(editEtanol, mLocale));
         editTotalPagar.addTextChangedListener(new MoneyTextWatcher(editTotalPagar, mLocale));
 
-        //Populado tabela de historico
+
+        //Populado tabela de historico e ultimo dado
         Boolean vazio = dados.isEmpty();
         if (vazio == false) {
-            for (Abastecimento i : dados) {
-                dadosTabela(tabHistorico, i);
+            editGasolina.setText(abastecimento.getPrecoGasolina().toString());
+            editEtanol.setText(abastecimento.getPrecoEtanol().toString());
+            for (int i = 0; i < dados.size(); i++) {
+                dadosTabela(tabHistorico, dados.get(i), i);
             }
-
         }
 
 
@@ -135,21 +141,34 @@ public class GasEtaActivity extends AppCompatActivity {
                     abastecimento.setKmAtual(kmAtual);
                     abastecimento.setTotalPagar(totalPagar);
 
-                    if (rbGasolina.isChecked()) {
-                        abastecimento.setCombustivelSelecionado("Gasolina");
-                        qtdLitros = abastecimentoControler.calculoCombustivel(gasolina, totalPagar);
-                        qtdLitros = UtilGasEta.doubleDuasCasasDecimais(qtdLitros);
+                    if (abastecimento.getKmAtual() < abastecimento.getKmAntigo()) {
+                        Toast.makeText(GasEtaActivity.this, "KM Atual não pode ser menor que KM Antigo " + abastecimento.getKmAntigo() + " !!!", Toast.LENGTH_LONG).show();
+                        txtKmAtual.setErrorEnabled(true);
+                        editKmAtual.requestFocus();
+                    } else {
+                        txtKmAtual.setErrorEnabled(false);
+                        abastecimento.setKmAtual(kmAtual);
+                        int consumoKM = 0;
+                        consumoKM = abastecimento.getKmAtual() - abastecimento.getKmAntigo();
+                        abastecimento.setKmConsumo(consumoKM);
+                        abastecimento.setKmAntigo(kmAtual);
+                        if (rbGasolina.isChecked()) {
+                            abastecimento.setCombustivelSelecionado("Gasolina");
+                            qtdLitros = abastecimentoControler.calculoCombustivel(gasolina, totalPagar);
+                            qtdLitros = UtilGasEta.doubleDuasCasasDecimais(qtdLitros);
 
-                    } else if (rbEtanol.isChecked()) {
-                        abastecimento.setCombustivelSelecionado("Etanol");
-                        qtdLitros = abastecimentoControler.calculoCombustivel(etanol, totalPagar);
-                        qtdLitros = UtilGasEta.doubleDuasCasasDecimais(qtdLitros);
+                        } else if (rbEtanol.isChecked()) {
+                            abastecimento.setCombustivelSelecionado("Etanol");
+                            qtdLitros = abastecimentoControler.calculoCombustivel(etanol, totalPagar);
+                            qtdLitros = UtilGasEta.doubleDuasCasasDecimais(qtdLitros);
+                        }
+
+                        editQtdLitros.setText(qtdLitros.toString());
+                        abastecimento.setQtdLitros(qtdLitros);
+                        abastecimentoControler.salvar(abastecimento);
+
+                        dadosTabela(tabHistorico, abastecimento, dados.size());
                     }
-
-                    editQtdLitros.setText(qtdLitros.toString());
-                    abastecimento.setQtdLitros(qtdLitros);
-                    abastecimentoControler.salvar(abastecimento);
-                    dadosTabela(tabHistorico, abastecimento);
 
                 }
 
@@ -239,15 +258,17 @@ public class GasEtaActivity extends AppCompatActivity {
         tableLayout.addView(vLinha);
     }
 
-    public void dadosTabela(TableLayout tableLayout, Abastecimento abastecimento) {
+    public void dadosTabela(TableLayout tableLayout, Abastecimento abastecimento, int i) {
+
         TableRow tr_head = new TableRow(this);
 
-
         TextView labelCombustivel = new TextView(this);
+        labelCombustivel = linhaTabela(labelCombustivel, i);
         labelCombustivel.setText(abastecimento.getCombustivelSelecionado());
         tr_head.addView(labelCombustivel);
 
         TextView labelPreco = new TextView(this);
+        labelPreco = linhaTabela(labelPreco, i);
         if (abastecimento.getCombustivelSelecionado().equals("Gasolina")) {
             labelPreco.setText(UtilGasEta.doubleParaReal(abastecimento.getPrecoGasolina()));
         } else {
@@ -256,26 +277,42 @@ public class GasEtaActivity extends AppCompatActivity {
         tr_head.addView(labelPreco);
 
         TextView labelLitros = new TextView(this);
+        labelLitros = linhaTabela(labelLitros, i);
         labelLitros.setText(abastecimento.getQtdLitros().toString());
         tr_head.addView(labelLitros);
 
         TextView labelKmAtual = new TextView(this);
+        labelKmAtual = linhaTabela(labelKmAtual, i);
         labelKmAtual.setText(Integer.toString(abastecimento.getKmAtual()));
         tr_head.addView(labelKmAtual);
 
         TextView labelTotalPagar = new TextView(this);
+        labelTotalPagar = linhaTabela(labelTotalPagar, i);
         labelTotalPagar.setText(UtilGasEta.doubleParaReal(abastecimento.getTotalPagar()));
         tr_head.addView(labelTotalPagar);
 
         TextView labelConsumo = new TextView(this);
-
-        labelConsumo.setText("200");
+        labelConsumo = linhaTabela(labelConsumo, i);
+        labelConsumo.setText(Integer.toString(abastecimento.getKmConsumo()));
         tr_head.addView(labelConsumo);
 
         tableLayout.addView(tr_head, new TableLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT));
 
         criarLinhaTabela(tableLayout);
 
+    }
+
+    public TextView linhaTabela(TextView textView, int i) {
+        //Verifica se par ou impar
+        if (i % 2 == 0) {
+            textView.setBackgroundResource(R.color.tabela_linha_branca);
+        } else {
+            textView.setBackgroundResource(R.color.tabela_linha_clara);
+        }
+        textView.setTextAppearance(R.style.tabl_font);
+        textView.setGravity(Gravity.CENTER);
+        textView.setPadding(10, 10, 10, 10);
+        return textView;
     }
 
 }

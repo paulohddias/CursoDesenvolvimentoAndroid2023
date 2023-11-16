@@ -29,18 +29,22 @@ public class AbastecimentoControler extends GasEtaDB {
 
         spEditorAbastecimento.putString("kmAntigo", Integer.toString(abastecimento.getKmAntigo()));
         spEditorAbastecimento.putString("kmAtual", Integer.toString(abastecimento.getKmAtual()));
+        spEditorAbastecimento.putString("KMConsumo", Integer.toString(abastecimento.getKmAtual()));
         spEditorAbastecimento.putString("precoEtanol", abastecimento.getPrecoEtanol().toString());
         spEditorAbastecimento.putString("precoGasolina", abastecimento.getPrecoGasolina().toString());
         spEditorAbastecimento.putString("qtdLitros", abastecimento.getQtdLitros().toString());
         spEditorAbastecimento.putString("totalApagar", abastecimento.getTotalPagar().toString());
         spEditorAbastecimento.apply();
 
+        dados.put("dataAbastecimento", abastecimento.getPrecoGasolina());
         dados.put("precoGasolina", abastecimento.getPrecoGasolina());
         dados.put("precoEtanol", abastecimento.getPrecoEtanol());
         dados.put("qtdLitros", abastecimento.getQtdLitros());
+        dados.put("qtdLitrosConsumo", abastecimento.getPrecoGasolina());
         dados.put("totalPagar", abastecimento.getTotalPagar());
         dados.put("kmAtual", abastecimento.getKmAtual());
         dados.put("kmAntigo", abastecimento.getKmAntigo());
+        dados.put("kmConsumo", abastecimento.getKmAntigo());
         dados.put("combustivelSelecionado", abastecimento.getCombustivelSelecionado());
 
         salvarObjeto("Abastecimento", dados);
@@ -87,5 +91,29 @@ public class AbastecimentoControler extends GasEtaDB {
         return listarDados();
     }
 
+    public Abastecimento getUltimoRegistro(){
+        return ultimoRegistro();
+    }
 
+    public void alterar(Abastecimento abastecimento){
+        ContentValues dados = new ContentValues();
+
+        dados.put("id", abastecimento.getIdAbastecimento());
+        dados.put("dataAbastecimento", abastecimento.getPrecoGasolina());
+        dados.put("precoGasolina", abastecimento.getPrecoGasolina());
+        dados.put("precoEtanol", abastecimento.getPrecoEtanol());
+        dados.put("qtdLitros", abastecimento.getQtdLitros());
+        dados.put("qtdLitrosConsumo", abastecimento.getPrecoGasolina());
+        dados.put("totalPagar", abastecimento.getTotalPagar());
+        dados.put("kmAtual", abastecimento.getKmAtual());
+        dados.put("kmAntigo", abastecimento.getKmAntigo());
+        dados.put("kmConsumo", abastecimento.getKmAntigo());
+        dados.put("combustivelSelecionado", abastecimento.getCombustivelSelecionado());
+
+        alterarObejto("Abastecimento", dados);
+    }
+
+    public void deletar (int id){
+        deletarObjeto("Abastecimento", id);
+    }
 }

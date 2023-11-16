@@ -3,4 +3,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="corBotoes">#3390BA</color>
+
+    <color name="tabela_linha_branca">#ffffff</color>
+    <color name="tabela_linha_clara">#F2F2F2</color>
 </resources>
