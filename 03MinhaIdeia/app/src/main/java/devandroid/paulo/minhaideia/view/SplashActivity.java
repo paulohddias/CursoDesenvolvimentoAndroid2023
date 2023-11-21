@@ -38,11 +38,7 @@ public class SplashActivity extends AppCompatActivity {
             public void run() {
                 //GasEtaDB db = new GasEtaDB(SplashActivity.this);
 
-                objCliente = new Cliente("Dias",
-                        "paulohddias@gmail.com",
-                        "12997757353",
-                        38,
-                        true);
+                objCliente = new Cliente();
 
                 Intent telaPrincipal = new Intent(SplashActivity.this, MainActivity.class);
 
