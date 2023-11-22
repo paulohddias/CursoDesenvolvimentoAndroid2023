@@ -45,7 +45,7 @@ public class UtilData {
             return data;
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.print("ERRO");
+            System.out.print("ERROR");
         }
         return null;
     }
