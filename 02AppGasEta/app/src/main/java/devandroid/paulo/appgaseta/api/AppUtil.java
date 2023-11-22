@@ -1,11 +1,11 @@
-package devandroid.paulo.appgaseta.util;
+package devandroid.paulo.appgaseta.api;
 
-import java.math.BigDecimal;
-import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Locale;
 
-public class UtilGasEta {
+public class AppUtil {
+
+    public final static String TAG = "GasEta";
 
 
     public static String calcularMelhorOpcao(double gasolina, double etanol) {

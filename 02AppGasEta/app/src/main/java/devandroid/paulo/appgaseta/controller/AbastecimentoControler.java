@@ -1,85 +1,30 @@
 package devandroid.paulo.appgaseta.controller;
 
 import android.content.ContentValues;
-import android.content.SharedPreferences;
+import android.content.Context;
+import android.util.Log;
 
 import java.util.List;
 
-import devandroid.paulo.appgaseta.database.GasEtaDB;
+import devandroid.paulo.appgaseta.api.AppUtil;
+import devandroid.paulo.appgaseta.api.UtilData;
+import devandroid.paulo.appgaseta.datamodel.AbastecimentoDataModel;
+import devandroid.paulo.appgaseta.datasource.AppDataBase;
 import devandroid.paulo.appgaseta.model.Abastecimento;
-import devandroid.paulo.appgaseta.util.MoneyTextWatcher;
-import devandroid.paulo.appgaseta.view.GasEtaActivity;
 
-public class AbastecimentoControler extends GasEtaDB {
 
-    SharedPreferences preferences;
-    SharedPreferences.Editor spEditorAbastecimento;
+public class AbastecimentoControler extends AppDataBase implements ICrud<Abastecimento> {
 
     public static final String NOME_PREFERENCES = "pref_abastecimento";
 
+    ContentValues dadoDoObjeto;
 
-    public AbastecimentoControler(GasEtaActivity gasEtaActivity) {
-        super(gasEtaActivity);
-        preferences = gasEtaActivity.getSharedPreferences(NOME_PREFERENCES, 0);
-        spEditorAbastecimento = preferences.edit();
+
+    public AbastecimentoControler(Context context) {
+        super(context);
+        Log.d(AppUtil.TAG, "AbastecimentoControler: Conectado");
     }
 
-    public void salvar(Abastecimento abastecimento) {
-        ContentValues dados = new ContentValues();
-
-        spEditorAbastecimento.putString("kmAntigo", Integer.toString(abastecimento.getKmAntigo()));
-        spEditorAbastecimento.putString("kmAtual", Integer.toString(abastecimento.getKmAtual()));
-        spEditorAbastecimento.putString("KMConsumo", Integer.toString(abastecimento.getKmAtual()));
-        spEditorAbastecimento.putString("precoEtanol", abastecimento.getPrecoEtanol().toString());
-        spEditorAbastecimento.putString("precoGasolina", abastecimento.getPrecoGasolina().toString());
-        spEditorAbastecimento.putString("qtdLitros", abastecimento.getQtdLitros().toString());
-        spEditorAbastecimento.putString("totalApagar", abastecimento.getTotalPagar().toString());
-        spEditorAbastecimento.apply();
-
-        dados.put("dataAbastecimento", abastecimento.getPrecoGasolina());
-        dados.put("precoGasolina", abastecimento.getPrecoGasolina());
-        dados.put("precoEtanol", abastecimento.getPrecoEtanol());
-        dados.put("qtdLitros", abastecimento.getQtdLitros());
-        dados.put("qtdLitrosConsumo", abastecimento.getPrecoGasolina());
-        dados.put("totalPagar", abastecimento.getTotalPagar());
-        dados.put("kmAtual", abastecimento.getKmAtual());
-        dados.put("kmAntigo", abastecimento.getKmAntigo());
-        dados.put("kmConsumo", abastecimento.getKmAntigo());
-        dados.put("combustivelSelecionado", abastecimento.getCombustivelSelecionado());
-
-        salvarObjeto("Abastecimento", dados);
-    }
-
-    public Abastecimento buscar(Abastecimento abastecimento) {
-        abastecimento.setKmAntigo(preferences.getInt("kmAntigo", 0));
-        abastecimento.setKmAtual(preferences.getInt("kmAtual", 0));
-        abastecimento.setPrecoEtanol((double) preferences.getFloat("precoEtanol", 0));
-        abastecimento.setPrecoGasolina((double) preferences.getFloat("precoGasolina", 0));
-        abastecimento.setQtdLitros((double) preferences.getFloat("qtdLitros", 0));
-        abastecimento.setTotalPagar((double) preferences.getFloat("totalApagar", 0));
-
-
-        return abastecimento;
-    }
-
-    public void limpar() {
-        spEditorAbastecimento.clear();
-        spEditorAbastecimento.apply();
-    }
-
-    public String combustivelSelecionado(String resultado) {
-        String combustivel = "";
-        int indexFinal = resultado.indexOf("Total");
-        combustivel = resultado.substring(14, indexFinal);
-        return combustivel;
-    }
-
-    public Double totalPagarSelecionado(String resultado) {
-        Double total = 0.0;
-        int indexInicial = resultado.indexOf("R$") + 3;
-        total = MoneyTextWatcher.stringMonetarioToDouble(resultado.substring(indexInicial, resultado.length()));
-        return total;
-    }
 
     public Double calculoCombustivel(double valorCombustivel, double totalPagar) {
         Double qtdLitros = 0.0;
@@ -87,33 +32,61 @@ public class AbastecimentoControler extends GasEtaDB {
         return qtdLitros;
     }
 
-    public List<Abastecimento> getListaDados(){
+
+    @Override
+    public boolean incluir(Abastecimento obj) {
+        dadoDoObjeto = new ContentValues();
+
+        dadoDoObjeto.put(AbastecimentoDataModel.PRECOGASOLINA, obj.getPrecoGasolina());
+        dadoDoObjeto.put(AbastecimentoDataModel.PRECOETANOL, obj.getPrecoEtanol());
+        dadoDoObjeto.put(AbastecimentoDataModel.QTDLITROS, obj.getQtdLitros());
+        dadoDoObjeto.put(AbastecimentoDataModel.TOTALPAGAR, obj.getTotalPagar());
+        dadoDoObjeto.put(AbastecimentoDataModel.QTDLITROSCONSUMO, obj.getQtdLitrosConsumo());
+        dadoDoObjeto.put(AbastecimentoDataModel.KMATUAL, obj.getKmAtual());
+        dadoDoObjeto.put(AbastecimentoDataModel.KMANTIGO, obj.getKmAntigo());
+        dadoDoObjeto.put(AbastecimentoDataModel.KMCONSUMO, obj.getKmConsumo());
+        dadoDoObjeto.put(AbastecimentoDataModel.COMBUSTIVELSELECIONADO, obj.getCombustivelSelecionado());
+        dadoDoObjeto.put(AbastecimentoDataModel.DATAABASTECIMENTO, UtilData.stringToDataBD(obj.getDataAbastecimento()));
+
+        return insert(AbastecimentoDataModel.TABELA, dadoDoObjeto);
+    }
+
+    @Override
+    public boolean alterar(Abastecimento obj) {
+        dadoDoObjeto = new ContentValues();
+
+        dadoDoObjeto.put(AbastecimentoDataModel.ID, obj.getIdAbastecimento());
+        dadoDoObjeto.put(AbastecimentoDataModel.PRECOGASOLINA, obj.getPrecoGasolina());
+        dadoDoObjeto.put(AbastecimentoDataModel.PRECOETANOL, obj.getPrecoEtanol());
+        dadoDoObjeto.put(AbastecimentoDataModel.QTDLITROS, obj.getQtdLitros());
+        dadoDoObjeto.put(AbastecimentoDataModel.TOTALPAGAR, obj.getTotalPagar());
+        dadoDoObjeto.put(AbastecimentoDataModel.QTDLITROSCONSUMO, obj.getQtdLitrosConsumo());
+        dadoDoObjeto.put(AbastecimentoDataModel.KMATUAL, obj.getKmAtual());
+        dadoDoObjeto.put(AbastecimentoDataModel.KMANTIGO, obj.getKmAntigo());
+        dadoDoObjeto.put(AbastecimentoDataModel.KMCONSUMO, obj.getKmConsumo());
+        dadoDoObjeto.put(AbastecimentoDataModel.COMBUSTIVELSELECIONADO, obj.getCombustivelSelecionado());
+        dadoDoObjeto.put(AbastecimentoDataModel.DATAABASTECIMENTO, UtilData.stringToDataBD(obj.getDataAbastecimento()));
+
+        return update(AbastecimentoDataModel.TABELA, dadoDoObjeto);
+    }
+
+    @Override
+    public boolean deletar(int id) {
+        return deleteByID(AbastecimentoDataModel.TABELA, id);
+    }
+
+    @Override
+    public List<Abastecimento> listar() {
+        return null;
+    }
+
+    public List<Abastecimento> getListaDados() {
         return listarDados();
     }
 
-    public Abastecimento getUltimoRegistro(){
+    public Abastecimento getUltimoRegistro() {
         return ultimoRegistro();
     }
 
-    public void alterar(Abastecimento abastecimento){
-        ContentValues dados = new ContentValues();
 
-        dados.put("id", abastecimento.getIdAbastecimento());
-        dados.put("dataAbastecimento", abastecimento.getPrecoGasolina());
-        dados.put("precoGasolina", abastecimento.getPrecoGasolina());
-        dados.put("precoEtanol", abastecimento.getPrecoEtanol());
-        dados.put("qtdLitros", abastecimento.getQtdLitros());
-        dados.put("qtdLitrosConsumo", abastecimento.getPrecoGasolina());
-        dados.put("totalPagar", abastecimento.getTotalPagar());
-        dados.put("kmAtual", abastecimento.getKmAtual());
-        dados.put("kmAntigo", abastecimento.getKmAntigo());
-        dados.put("kmConsumo", abastecimento.getKmAntigo());
-        dados.put("combustivelSelecionado", abastecimento.getCombustivelSelecionado());
-
-        alterarObejto("Abastecimento", dados);
-    }
-
-    public void deletar (int id){
-        deletarObjeto("Abastecimento", id);
-    }
 }

@@ -1,4 +1,4 @@
-package devandroid.paulo.minhaideia.controller;
+package devandroid.paulo.appgaseta.controller;
 
 import java.util.List;
 

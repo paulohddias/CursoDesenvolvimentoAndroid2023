@@ -7,7 +7,7 @@ public class Abastecimento {
     private Double precoGasolina, precoEtanol, qtdLitros, totalPagar, qtdLitrosConsumo;
     private int kmAtual, kmAntigo, kmConsumo;
     private String combustivelSelecionado;
-    private Date dataAbastecimento;
+    private String dataAbastecimento;
 
     public int getIdAbastecimento() {
         return idAbastecimento;
@@ -89,11 +89,11 @@ public class Abastecimento {
         this.combustivelSelecionado = combustivelSelecionado;
     }
 
-    public Date getDataAbastecimento() {
+    public String getDataAbastecimento() {
         return dataAbastecimento;
     }
 
-    public void setDataAbastecimento(Date dataAbastecimento) {
+    public void setDataAbastecimento(String dataAbastecimento) {
         this.dataAbastecimento = dataAbastecimento;
     }
 

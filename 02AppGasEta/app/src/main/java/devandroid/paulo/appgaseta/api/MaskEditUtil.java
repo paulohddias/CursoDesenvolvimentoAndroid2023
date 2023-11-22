@@ -1,10 +1,8 @@
-package devandroid.paulo.appgaseta.util;
+package devandroid.paulo.appgaseta.api;
 
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.EditText;
-
-import java.text.NumberFormat;
 
 public class MaskEditUtil {
     public static final String FORMAT_CPF = "###.###.###-##";

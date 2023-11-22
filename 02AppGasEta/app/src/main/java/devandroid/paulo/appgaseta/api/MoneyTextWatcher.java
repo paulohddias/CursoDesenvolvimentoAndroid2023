@@ -1,4 +1,4 @@
-package devandroid.paulo.appgaseta.util;
+package devandroid.paulo.appgaseta.api;
 
 import android.text.Editable;
 import android.text.TextWatcher;

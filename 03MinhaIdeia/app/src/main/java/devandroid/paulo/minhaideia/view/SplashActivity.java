@@ -36,17 +36,15 @@ public class SplashActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                //GasEtaDB db = new GasEtaDB(SplashActivity.this);
-
-                objCliente = new Cliente();
+                // objCliente = new Cliente();
 
                 Intent telaPrincipal = new Intent(SplashActivity.this, MainActivity.class);
 
                 Bundle bundle = new Bundle();
-                bundle.putString("nome", objCliente.getNome());
-                bundle.putString("email", objCliente.getEmail());
+                // bundle.putString("nome", objCliente.getNome());
+                // bundle.putString("email", objCliente.getEmail());
 
-                telaPrincipal.putExtras(bundle);
+                // telaPrincipal.putExtras(bundle);
 
                 startActivity(telaPrincipal);
                 finish();
