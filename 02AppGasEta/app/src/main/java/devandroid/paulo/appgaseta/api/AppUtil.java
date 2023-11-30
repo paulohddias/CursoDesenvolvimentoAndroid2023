@@ -1,6 +1,7 @@
 package devandroid.paulo.appgaseta.api;
 
 import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.Locale;
 
 public class AppUtil {
@@ -29,5 +30,9 @@ public class AppUtil {
     public static Double doubleDuasCasasDecimais(Double v) {
         double valor = Math.round(v * 100.0) / 100.0;
         return valor;
+    }
+
+    public static String doubleToString(Double v) {
+        return v.toString().replace(".",",");
     }
 }

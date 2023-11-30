@@ -32,6 +32,12 @@ public class AbastecimentoControler extends AppDataBase implements ICrud<Abastec
         return qtdLitros;
     }
 
+    public Double calculoConsumoPorLitro(int quantKm, Double litrosAbastecimento) {
+        Double kmL;
+        kmL = quantKm / litrosAbastecimento;
+        return AppUtil.doubleDuasCasasDecimais(kmL);
+    }
+
 
     @Override
     public boolean incluir(Abastecimento obj) {
@@ -46,7 +52,8 @@ public class AbastecimentoControler extends AppDataBase implements ICrud<Abastec
         dadoDoObjeto.put(AbastecimentoDataModel.KMANTIGO, obj.getKmAntigo());
         dadoDoObjeto.put(AbastecimentoDataModel.KMCONSUMO, obj.getKmConsumo());
         dadoDoObjeto.put(AbastecimentoDataModel.COMBUSTIVELSELECIONADO, obj.getCombustivelSelecionado());
-        dadoDoObjeto.put(AbastecimentoDataModel.DATAABASTECIMENTO, UtilData.stringToDataBD(obj.getDataAbastecimento()));
+        dadoDoObjeto.put(AbastecimentoDataModel.DATAABASTECIMENTO, obj.getDataAbastecimento());
+        dadoDoObjeto.put(AbastecimentoDataModel.TIPOCOMBUSTIVELANTERIOR, obj.getTipoCombustivelAnterior());
 
         return insert(AbastecimentoDataModel.TABELA, dadoDoObjeto);
     }
@@ -65,8 +72,8 @@ public class AbastecimentoControler extends AppDataBase implements ICrud<Abastec
         dadoDoObjeto.put(AbastecimentoDataModel.KMANTIGO, obj.getKmAntigo());
         dadoDoObjeto.put(AbastecimentoDataModel.KMCONSUMO, obj.getKmConsumo());
         dadoDoObjeto.put(AbastecimentoDataModel.COMBUSTIVELSELECIONADO, obj.getCombustivelSelecionado());
-        dadoDoObjeto.put(AbastecimentoDataModel.DATAABASTECIMENTO, UtilData.stringToDataBD(obj.getDataAbastecimento()));
-
+        dadoDoObjeto.put(AbastecimentoDataModel.DATAABASTECIMENTO, obj.getDataAbastecimento());
+        dadoDoObjeto.put(AbastecimentoDataModel.TIPOCOMBUSTIVELANTERIOR, obj.getTipoCombustivelAnterior());
         return update(AbastecimentoDataModel.TABELA, dadoDoObjeto);
     }
 

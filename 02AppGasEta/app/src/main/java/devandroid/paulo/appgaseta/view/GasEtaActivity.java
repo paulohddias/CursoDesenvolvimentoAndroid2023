@@ -1,12 +1,14 @@
 package devandroid.paulo.appgaseta.view;
 
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TableLayout;
@@ -18,10 +20,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.textfield.TextInputLayout;
-
-
-import java.time.LocalDate;
-
 
 import java.util.Date;
 import java.util.List;
@@ -36,8 +34,7 @@ import devandroid.paulo.appgaseta.api.AppUtil;
 
 public class GasEtaActivity extends AppCompatActivity {
 
-    Abastecimento abastecimento;
-    AbastecimentoControler abastecimentoControler;
+    //Variaveis layout
     EditText editGasolina, editEtanol, editQtdLitros, editKmAtual, editTotalPagar;
     TextInputLayout txtGasolina, txtEtanol, txtQtdLitors, txtKmAtual, txtTotalPgar;
     Button btnLimpar, btnSalvar, btnFinalizar, btnCalcular, btnCalacularTipo;
@@ -45,8 +42,14 @@ public class GasEtaActivity extends AppCompatActivity {
     TableLayout tabHistorico;
     RadioGroup rbGrupo;
     RadioButton rbGasolina, rbEtanol;
+    LinearLayout llHistorico;
+
+    //Variaveis classes
+    Abastecimento abastecimento;
+    AbastecimentoControler abastecimentoControler;
     List<Abastecimento> dados;
     Date dataAtual;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -59,6 +62,12 @@ public class GasEtaActivity extends AppCompatActivity {
 
         //Pegando o ultimo registro
         abastecimento = abastecimentoControler.getUltimoRegistro();
+
+        //Atualizando o kmAntigo com base no ultimo abastecimento
+        int kmAntigo = abastecimento.getKmAtual();
+        abastecimento.setKmAntigo(kmAntigo);
+        String tipoCombAnt = abastecimento.getCombustivelSelecionado();
+        abastecimento.setTipoCombustivelAnterior(tipoCombAnt);
 
         dados = abastecimentoControler.getListaDados();
 
@@ -73,21 +82,19 @@ public class GasEtaActivity extends AppCompatActivity {
         txtQtdLitors = findViewById(R.id.txtQtdLitros);
         txtKmAtual = findViewById(R.id.txtKmAtual);
         txtTotalPgar = findViewById(R.id.txtTotalPagar);
-
-        btnFinalizar = findViewById(R.id.btnFinalizar);
-        btnLimpar = findViewById(R.id.btnLimpar);
-        btnSalvar = findViewById(R.id.btnSalvar);
         btnCalcular = findViewById(R.id.btnCalcular);
         btnCalacularTipo = findViewById(R.id.btnCalculatTipo);
 
         textViewResultado = findViewById(R.id.textResultado);
 
-        tabHistorico = findViewById(R.id.tabHistorico);
+        //tabHistorico = findViewById(R.id.tabHistorico);
 
         rbGrupo = findViewById(R.id.rbGrupo);
 
         rbGasolina = findViewById(R.id.rbGasolina);
         rbEtanol = findViewById(R.id.rbEtanol);
+
+        llHistorico = findViewById(R.id.llHistorico);
 
         Locale mLocale = new Locale("pt", "BR");
         editGasolina.addTextChangedListener(new MoneyTextWatcher(editGasolina, mLocale));
@@ -100,34 +107,14 @@ public class GasEtaActivity extends AppCompatActivity {
         if (vazio == false) {
             editGasolina.setText(abastecimento.getPrecoGasolina().toString());
             editEtanol.setText(abastecimento.getPrecoEtanol().toString());
+            String abastecimentoAterior;
             for (int i = 0; i < dados.size(); i++) {
-                dadosTabela(tabHistorico, dados.get(i), i);
+                //dadosTabela(tabHistorico, dados.get(i), i);
+                abastecimentoAterior = dados.get(i).getCombustivelSelecionado();
+                criarHistoricoAbastecimento(llHistorico, dados.get(i));
             }
         }
 
-
-        btnLimpar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                limpar();
-            }
-        });
-
-        btnFinalizar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(GasEtaActivity.this, "Volte Sempre", Toast.LENGTH_LONG).show();
-                finish();
-            }
-        });
-
-        btnSalvar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(GasEtaActivity.this, "Não faz nada!!!", Toast.LENGTH_LONG).show();
-
-            }
-        });
 
         btnCalcular.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -154,9 +141,14 @@ public class GasEtaActivity extends AppCompatActivity {
                         txtKmAtual.setErrorEnabled(false);
                         abastecimento.setKmAtual(kmAtual);
                         int consumoKM = 0;
-                        consumoKM = abastecimento.getKmAtual() - abastecimento.getKmAntigo();
+                        if (abastecimento.getKmAntigo() == 0) {
+                            consumoKM = 0;
+                        } else {
+                            consumoKM = abastecimento.getKmAtual() - abastecimento.getKmAntigo();
+                        }
+
                         abastecimento.setKmConsumo(consumoKM);
-                        abastecimento.setKmAntigo(kmAtual);
+                        //abastecimento.setKmAntigo(kmAtual);
                         if (rbGasolina.isChecked()) {
                             abastecimento.setCombustivelSelecionado("Gasolina");
                             qtdLitros = abastecimentoControler.calculoCombustivel(gasolina, totalPagar);
@@ -168,14 +160,16 @@ public class GasEtaActivity extends AppCompatActivity {
                             qtdLitros = AppUtil.doubleDuasCasasDecimais(qtdLitros);
                         }
 
-                        editQtdLitros.setText(qtdLitros.toString());
+                        editQtdLitros.setText(AppUtil.doubleToString(qtdLitros));
                         abastecimento.setQtdLitros(qtdLitros);
+                        abastecimento.setQtdLitrosConsumo(abastecimentoControler.calculoConsumoPorLitro(abastecimento.getKmConsumo(), abastecimento.getQtdLitros()));
 
                         dataAtual = new Date();
-                        abastecimento.setDataAbastecimento(UtilData.dateToString(dataAtual));
+                        abastecimento.setDataAbastecimento(UtilData.stringToDataBD(UtilData.dateToString(dataAtual)));
                         abastecimentoControler.incluir(abastecimento);
 
-                        dadosTabela(tabHistorico, abastecimento, dados.size());
+                        //dadosTabela(tabHistorico, abastecimento, dados.size());
+                        criarHistoricoAbastecimento(llHistorico, abastecimento);
                     }
 
                 }
@@ -259,16 +253,14 @@ public class GasEtaActivity extends AppCompatActivity {
         return false;
     }
 
-    public void criarLinhaTabela(TableLayout tableLayout) {
-        View vLinha = new View(this);
-        vLinha.setBackgroundColor(Color.parseColor("#2c3e50"));
-        vLinha.setMinimumHeight(5);
-        tableLayout.addView(vLinha);
-    }
-
     public void dadosTabela(TableLayout tableLayout, Abastecimento abastecimento, int i) {
 
         TableRow tr_head = new TableRow(this);
+
+        TextView labelData = new TextView(this);
+        labelData = linhaTabela(labelData, i);
+        labelData.setText(abastecimento.getDataAbastecimento());
+        tr_head.addView(labelData);
 
         TextView labelCombustivel = new TextView(this);
         labelCombustivel = linhaTabela(labelCombustivel, i);
@@ -310,6 +302,13 @@ public class GasEtaActivity extends AppCompatActivity {
 
     }
 
+    public void criarLinhaTabela(TableLayout tableLayout) {
+        View vLinha = new View(this);
+        vLinha.setBackgroundColor(Color.parseColor("#2c3e50"));
+        vLinha.setMinimumHeight(5);
+        tableLayout.addView(vLinha);
+    }
+
     public TextView linhaTabela(TextView textView, int i) {
         //Verifica se par ou impar
         if (i % 2 == 0) {
@@ -321,6 +320,86 @@ public class GasEtaActivity extends AppCompatActivity {
         textView.setGravity(Gravity.CENTER);
         textView.setPadding(10, 10, 10, 10);
         return textView;
+    }
+
+    public void criarHistoricoAbastecimento(LinearLayout llHistorico, Abastecimento abastecimento) {
+
+        //Cria layout inteira como uma linha onde sera dividido
+        LinearLayout llLinha = new LinearLayout(this);
+        llLinha.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        llLinha.setOrientation(LinearLayout.HORIZONTAL);
+        llLinha.setId(abastecimento.getIdAbastecimento());
+
+        llHistorico.addView(llLinha);
+
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT);
+        lp.weight = 1;
+
+        //Cria a primeira coluna de data
+        LinearLayout llData = new LinearLayout(this);
+        llData.setLayoutParams(lp);
+        llData.setOrientation(LinearLayout.VERTICAL);
+        llData.setGravity(Gravity.CENTER);
+        llLinha.addView(llData);
+
+        TextView data = new TextView(this);
+        data.setLayoutParams(new LinearLayout.LayoutParams(250, 250));
+        data.setText(UtilData.stringToDataBrMes(abastecimento.getDataAbastecimento()));
+        data.setGravity(Gravity.CENTER);
+        data.setBackgroundResource(R.drawable.ic_calendario);
+        data.setTypeface(null, Typeface.BOLD);
+        data.setPadding(0, 50, 0, 0);
+        llData.addView(data);
+
+
+        //Cria a Segunada coluna de dados
+        LinearLayout llDados = new LinearLayout(this);
+        llDados.setLayoutParams(lp);
+        llDados.setOrientation(LinearLayout.VERTICAL);
+        llLinha.addView(llDados);
+
+        TextView comb = new TextView(this);
+        comb.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        comb.setText("Abasteceu com " + abastecimento.getCombustivelSelecionado() + "      " + AppUtil.doubleToString(abastecimento.getQtdLitros()) + " L");
+        comb.setTypeface(null, Typeface.BOLD);
+        comb.setTextColor(Color.parseColor("#6D214F"));
+        llDados.addView(comb);
+
+        TextView valorComb = new TextView(this);
+        valorComb.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        if (abastecimento.getCombustivelSelecionado().equals("Gasolina")) {
+            valorComb.setText("Preço R$  " + AppUtil.doubleToString(abastecimento.getPrecoGasolina()));
+        } else {
+            valorComb.setText("Preço R$  " + AppUtil.doubleToString(abastecimento.getPrecoEtanol()));
+        }
+        llDados.addView(valorComb);
+
+        TextView valorTotal = new TextView(this);
+        valorTotal.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        valorTotal.setText("Total R$  " + AppUtil.doubleToString(abastecimento.getTotalPagar()));
+        llDados.addView(valorTotal);
+
+        TextView consumo = new TextView(this);
+        consumo.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        consumo.setText("Andou: " + abastecimento.getKmConsumo() + " km com " + abastecimento.getTipoCombustivelAnterior());
+        llDados.addView(consumo);
+
+        TextView litros = new TextView(this);
+        litros.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        litros.setText("Consumo: " + AppUtil.doubleToString(abastecimento.getQtdLitrosConsumo()) + " km/l");
+        llDados.addView(litros);
+
+        TextView kmAtual = new TextView(this);
+        kmAtual.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        kmAtual.setText("KM: " + abastecimento.getKmAtual());
+        llDados.addView(kmAtual);
+
+
+        View vLinha = new View(this);
+        vLinha.setBackgroundColor(Color.parseColor("#2c3e50"));
+        vLinha.setMinimumHeight(5);
+        llHistorico.addView(vLinha);
+
     }
 
 }

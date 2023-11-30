@@ -109,10 +109,12 @@ public class AppDataBase extends SQLiteOpenHelper {
                 registro.setPrecoEtanol(cursor.getDouble(cursor.getColumnIndex(AbastecimentoDataModel.PRECOETANOL)));
                 registro.setQtdLitros(cursor.getDouble(cursor.getColumnIndex(AbastecimentoDataModel.QTDLITROS)));
                 registro.setTotalPagar(cursor.getDouble(cursor.getColumnIndex(AbastecimentoDataModel.TOTALPAGAR)));
+                registro.setQtdLitrosConsumo(cursor.getDouble(cursor.getColumnIndex(AbastecimentoDataModel.QTDLITROSCONSUMO)));
                 registro.setKmAtual(cursor.getInt(cursor.getColumnIndex(AbastecimentoDataModel.KMATUAL)));
                 registro.setKmAntigo(cursor.getInt(cursor.getColumnIndex(AbastecimentoDataModel.KMANTIGO)));
                 registro.setKmConsumo(cursor.getInt(cursor.getColumnIndex(AbastecimentoDataModel.KMCONSUMO)));
                 registro.setCombustivelSelecionado(cursor.getString(cursor.getColumnIndex(AbastecimentoDataModel.COMBUSTIVELSELECIONADO)));
+                registro.setTipoCombustivelAnterior(cursor.getString(cursor.getColumnIndex(AbastecimentoDataModel.TIPOCOMBUSTIVELANTERIOR)));
                 registro.setDataAbastecimento(cursor.getString(cursor.getColumnIndex(AbastecimentoDataModel.DATAABASTECIMENTO)));
 
             } while (cursor.moveToNext());
@@ -140,10 +142,12 @@ public class AppDataBase extends SQLiteOpenHelper {
                 registro.setPrecoEtanol(cursor.getDouble(cursor.getColumnIndex(AbastecimentoDataModel.PRECOETANOL)));
                 registro.setQtdLitros(cursor.getDouble(cursor.getColumnIndex(AbastecimentoDataModel.QTDLITROS)));
                 registro.setTotalPagar(cursor.getDouble(cursor.getColumnIndex(AbastecimentoDataModel.TOTALPAGAR)));
+                registro.setQtdLitrosConsumo(cursor.getDouble(cursor.getColumnIndex(AbastecimentoDataModel.QTDLITROSCONSUMO)));
                 registro.setKmAtual(cursor.getInt(cursor.getColumnIndex(AbastecimentoDataModel.KMATUAL)));
                 registro.setKmAntigo(cursor.getInt(cursor.getColumnIndex(AbastecimentoDataModel.KMANTIGO)));
                 registro.setKmConsumo(cursor.getInt(cursor.getColumnIndex(AbastecimentoDataModel.KMCONSUMO)));
                 registro.setCombustivelSelecionado(cursor.getString(cursor.getColumnIndex(AbastecimentoDataModel.COMBUSTIVELSELECIONADO)));
+                registro.setTipoCombustivelAnterior(cursor.getString(cursor.getColumnIndex(AbastecimentoDataModel.TIPOCOMBUSTIVELANTERIOR)));
                 registro.setDataAbastecimento(cursor.getString(cursor.getColumnIndex(AbastecimentoDataModel.DATAABASTECIMENTO)));
 
                 lista.add(registro);

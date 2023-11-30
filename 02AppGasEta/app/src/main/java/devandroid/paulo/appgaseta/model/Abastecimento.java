@@ -8,6 +8,7 @@ public class Abastecimento {
     private int kmAtual, kmAntigo, kmConsumo;
     private String combustivelSelecionado;
     private String dataAbastecimento;
+    private String tipoCombustivelAnterior;
 
     public int getIdAbastecimento() {
         return idAbastecimento;
@@ -97,20 +98,12 @@ public class Abastecimento {
         this.dataAbastecimento = dataAbastecimento;
     }
 
-    @Override
-    public String toString() {
-        return "Abastecimento{" +
-                "idAbastecimento=" + idAbastecimento +
-                ", precoGasolina=" + precoGasolina +
-                ", precoEtanol=" + precoEtanol +
-                ", qtdLitros=" + qtdLitros +
-                ", totalPagar=" + totalPagar +
-                ", qtdLitrosConsumo=" + qtdLitrosConsumo +
-                ", kmAtual=" + kmAtual +
-                ", kmAntigo=" + kmAntigo +
-                ", kmConsumo=" + kmConsumo +
-                ", combustivelSelecionado='" + combustivelSelecionado + '\'' +
-                ", dataAbastecimento=" + dataAbastecimento +
-                '}';
+    public String getTipoCombustivelAnterior() {
+        return tipoCombustivelAnterior;
     }
+
+    public void setTipoCombustivelAnterior(String tipoCombustivelAnterior) {
+        this.tipoCombustivelAnterior = tipoCombustivelAnterior;
+    }
+
 }

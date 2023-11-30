@@ -42,4 +42,5 @@ dependencies {
 
     //biblioteca para imagem gif //https://github.com/bumptech/glide
     implementation ("com.github.bumptech.glide:glide:4.16.0")
+
 }

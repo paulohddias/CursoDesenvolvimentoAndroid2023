@@ -26,4 +26,5 @@
     <string name="tbc_km_consumo">KM Consumo</string>
     <string name="rb_gasolina">Gasolina</string>
     <string name="rb_etanol">Etanol</string>
+    <string name="txt_historico_abastecimento">Histórico de Abastecimento</string>
 </resources>

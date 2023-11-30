@@ -16,6 +16,7 @@ public class AbastecimentoDataModel {
     public static final String KMCONSUMO = "kmConsumo"; //INTEGER
     public static final String COMBUSTIVELSELECIONADO = "combustivelSelecionado"; //TEXT
     public static final String DATAABASTECIMENTO = "dataAbastecimento"; //TEXT
+    public static final String TIPOCOMBUSTIVELANTERIOR = "tipoCombustivelAnterior"; //TEXT
 
     //Query para criar a tabela no banco de daods
     public static String queryCriarTabela = "";
@@ -35,6 +36,7 @@ public class AbastecimentoDataModel {
         queryCriarTabela += KMANTIGO + " INTEGER, ";
         queryCriarTabela += KMCONSUMO + " INTEGER, ";
         queryCriarTabela += COMBUSTIVELSELECIONADO + " TEXT, ";
+        queryCriarTabela += TIPOCOMBUSTIVELANTERIOR + " TEXT, ";
         queryCriarTabela += DATAABASTECIMENTO + " TEXT ";
         queryCriarTabela += ")";
         return queryCriarTabela;

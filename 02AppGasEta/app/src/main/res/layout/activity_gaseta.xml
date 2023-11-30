@@ -187,8 +187,8 @@
                         android:id="@+id/editQtdLitros"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/txt_qtd_litros"
                         android:enabled="false"
+                        android:hint="@string/txt_qtd_litros"
                         android:inputType="text" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -226,90 +226,78 @@
                 android:text="@string/txt_button_calcular" />
 
 
-            <ScrollView
-
+            <TextView
+                android:id="@+id/textHistoricoAbastecimento"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:scrollbars="vertical">
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:gravity="center_horizontal"
+                android:text="@string/txt_historico_abastecimento"
+                android:textSize="22sp"
+                android:textStyle="bold" />
 
-                <HorizontalScrollView
-                    android:layout_width="match_parent"
-                    android:layout_height="fill_parent">
-
-                    <TableLayout
-                        android:id="@+id/tabHistorico"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:stretchColumns="*">
-
-                        <TableRow android:background="#bdc3c7">
-
-                            <TextView
-                                style="@style/tabc_font"
-                                android:text="@string/tbc_combustivel" />
-
-                            <TextView
-                                style="@style/tabc_font"
-                                android:text="@string/tbc_preco" />
-
-                            <TextView
-                                style="@style/tabc_font"
-                                android:text="@string/tbc_litros" />
-
-                            <TextView
-                                style="@style/tabc_font"
-                                android:text="@string/tbc_km_atual" />
-
-                            <TextView
-                                style="@style/tabc_font"
-                                android:text="@string/tbc_total" />
-
-                            <TextView
-                                style="@style/tabc_font"
-                                android:text="@string/tbc_km_consumo" />
-                        </TableRow>
-
-                    </TableLayout>
-
-                </HorizontalScrollView>
-
-            </ScrollView>
-
-            <RelativeLayout
+            <!--
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <Button
-                    android:id="@+id/btnLimpar"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="24dp"
-                    android:layout_marginEnd="16dp"
-                    android:text="@string/txt_button_limpar" />
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
 
-                <Button
-                    android:id="@+id/btnSalvar"
-                    android:layout_width="wrap_content"
+                   <TextView
+                       android:layout_width="80dp"
+                       android:layout_height="80dp"
+                       android:text="28 NOV. 2023"
+                       android:gravity="center"
+                       android:paddingTop="10dp"
+                       android:background="@drawable/ic_calendario"
+                       />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="24dp"
-                    android:layout_marginEnd="16dp"
-                    android:text="@string/txt_button_salvar" />
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
 
-            </RelativeLayout>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Gasolina"
+                        />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Consumo: 10L" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="KM : 100km" />
 
-            <Button
-                android:id="@+id/btnFinalizar"
+                </LinearLayout>
+
+            </LinearLayout>
+                -->
+
+
+            <LinearLayout
+                android:id="@+id/llHistorico"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="16dp"
-                android:text="@string/txt_button_finalizar" />
+                android:orientation="vertical">
+
+
+            </LinearLayout>
 
         </LinearLayout>
 
