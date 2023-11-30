@@ -17,7 +17,6 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/textTitulo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -227,7 +226,6 @@
 
 
             <TextView
-                android:id="@+id/textHistoricoAbastecimento"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
