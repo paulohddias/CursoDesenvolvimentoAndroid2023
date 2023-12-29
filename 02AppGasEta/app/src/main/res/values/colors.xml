@@ -3,4 +3,8 @@
 
     <color name="tabela_linha_branca">#ffffff</color>
     <color name="tabela_linha_clara">#F2F2F2</color>
+
+    <color name="colorPrimary">#4CAF50</color>
+    <color name="colorPrimaryDark">#859F67</color>
+    <color name="colorAccent">#FFC107</color>
 </resources>
